@@ -1,0 +1,94 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    defaultConfig {
+        minSdkVersion 8
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+}
+
+
+task buildNative(type: Exec, description: 'Compile JNI source via NDK') {
+    def ndkPath = android.ndkDirectory
+    if (ndkPath != null) {
+        ndkPath = ndkPath.absolutePath;
+    }
+    if (ndkPath == null) {
+        throw new GradleException("NDK not found.")
+    }
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine ndkPath + '/ndk-build.cmd',
+                '-C', file('.').absolutePath,
+                '-j', Runtime.runtime.availableProcessors(),
+                'all'
+    } else {
+        commandLine "sh", ndkPath + '/ndk-build',
+                '-C', file('.').absolutePath,
+                '-j', Runtime.runtime.availableProcessors(),
+                'all'
+    }
+
+    doLast {
+        if (execResult.exitValue != 0) {
+            throw new GradleException()
+        }
+    }
+}
+
+task cleanNative(type: Exec, description: 'Clean JNI object files') {
+    def ndkPath = android.ndkDirectory
+    if (ndkPath != null) {
+        ndkPath = ndkPath.absolutePath;
+    }
+    if (ndkPath == null) {
+        throw new GradleException("NDK not found.")
+    }
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine ndkPath + '/ndk-build.cmd',
+                '-C', file('.').absolutePath,
+                'clean'
+    } else {
+        commandLine "sh", ndkPath + '/ndk-build',
+                '-C', file('.').absolutePath,
+                'clean'
+    }
+
+    doLast {
+        if (execResult.exitValue != 0) {
+            throw new GradleException()
+        }
+    }
+}
+
+clean.dependsOn 'cleanNative'
+
+tasks.withType(JavaCompile) {
+    compileTask -> compileTask.dependsOn buildNative
+}
