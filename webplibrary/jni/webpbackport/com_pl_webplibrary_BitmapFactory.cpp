@@ -16,7 +16,7 @@ extern "C" {
  * Method:    nativeDecodeByteArray
  * Signature: ([BLandroid/graphics/BitmapFactory/Options;)Landroid/graphics/Bitmap;
  */
-JNIEXPORT jobject JNICALL Java_android_backport_webp_WebPFactory_nativeDecodeByteArray
+JNIEXPORT jobject JNICALL Java_com_pl_webplibrary_BitmapFactory_nativeDecodeByteArray
   (JNIEnv *jniEnv, jclass, jbyteArray byteArray, jobject options)
 {
 	// Check if input is valid
@@ -135,7 +135,7 @@ JNIEXPORT jobject JNICALL Java_android_backport_webp_WebPFactory_nativeDecodeByt
  * Method:    nativeDecodeFile
  * Signature: (Ljava/lang/String;Landroid/graphics/BitmapFactory/Options;)Landroid/graphics/Bitmap;
  */
-JNIEXPORT jobject JNICALL Java_android_backport_webp_WebPFactory_nativeDecodeFile
+JNIEXPORT jobject JNICALL Java_com_pl_webplibrary_BitmapFactory_nativeDecodeFile
   (JNIEnv *jniEnv, jclass, jstring path, jobject options)
 {
 	// Check if input is valid

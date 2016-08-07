@@ -21,6 +21,9 @@ import java.lang.reflect.Method;
  * @author Alexey Pelykh
  */
 public final class BitmapFactory {
+
+	public static final int JELLY_BEAN_MR_2 = Build.VERSION_CODES.JELLY_BEAN_MR2;
+
 	static {
 		System.loadLibrary("webpbackport");
 	}
@@ -58,7 +61,7 @@ public final class BitmapFactory {
 
 
 	public static Bitmap decodeFile(String pathName, android.graphics.BitmapFactory.Options opts) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeFile(pathName, opts);
 		}else {
 			if (!pathName.toLowerCase().endsWith("webp")) {
@@ -85,7 +88,7 @@ public final class BitmapFactory {
 	 */
 	public static Bitmap decodeResourceStream(Resources res, TypedValue value,
 											  InputStream is, Rect pad, android.graphics.BitmapFactory.Options opts) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeResourceStream(res, value, is, pad, opts);
 		}else {
 			String name = res.getString(value.resourceId);
@@ -123,7 +126,7 @@ public final class BitmapFactory {
 	 *         size be returned (in opts.outWidth and opts.outHeight)
 	 */
 	public static Bitmap decodeResource(Resources res, int id, android.graphics.BitmapFactory.Options opts) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeResource(res, id, opts);
 		}else {
 			String name = res.getString(id);
@@ -190,7 +193,7 @@ public final class BitmapFactory {
 	 *         size be returned (in opts.outWidth and opts.outHeight)
 	 */
 	public static Bitmap decodeByteArray(byte[] data, int offset, int length, android.graphics.BitmapFactory.Options opts) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeByteArray(data, offset, length, opts);
 		}else {
 			if ((offset | length) < 0 || data.length < offset + length) {
@@ -320,7 +323,7 @@ public final class BitmapFactory {
 	public static Bitmap decodeStream(InputStream is, Rect outPadding, android.graphics.BitmapFactory.Options opts) {
 		// we don't throw in this case, thus allowing the caller to only check
 		// the cache, and not force the image to be decoded.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeStream(is, outPadding, opts);
 		}else {
 			if (is == null) {
@@ -396,7 +399,7 @@ public final class BitmapFactory {
 	 * @return the decoded bitmap, or null
 	 */
 	public static Bitmap decodeFileDescriptor(FileDescriptor fd, Rect outPadding, android.graphics.BitmapFactory.Options opts) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if (Build.VERSION.SDK_INT >= JELLY_BEAN_MR_2) {
 			return android.graphics.BitmapFactory.decodeFileDescriptor(fd, outPadding, opts);
 		}else {
 			Bitmap bm;

@@ -15,6 +15,9 @@ extern "C" {
 JNIEXPORT jobject JNICALL Java_com_pl_webplibrary_BitmapFactory_nativeDecodeByteArray
   (JNIEnv *, jclass, jbyteArray, jobject);
 
+JNIEXPORT jobject JNICALL Java_com_pl_webplibrary_BitmapFactory_nativeDecodeFile
+  (JNIEnv *jniEnv, jclass, jstring path, jobject options);
+
 
 #ifdef __cplusplus
 }

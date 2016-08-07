@@ -1,11 +1,9 @@
 package com.pl.webplib;
 
 import android.app.Activity;
-import android.backport.webp.WebPFactory;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
@@ -14,10 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.pl.webplibrary.BitmapFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,16 +27,7 @@ public class SampleActivity extends Activity {
 
 	public static final int[] DEFAULT_PIC_NAME= {
 			R.drawable.default_pic_1,R.drawable.default_pic_2,
-			R.drawable.default_pic_3,R.drawable.default_pic_4,
-			R.drawable.default_pic_5,R.drawable.default_pic_6,
-			R.drawable.default_pic_7,R.drawable.default_pic_8,
-			R.drawable.default_pic_9,R.drawable.default_pic_10,
-			R.drawable.default_pic_11,R.drawable.default_pic_12,
-			R.drawable.default_pic_13,R.drawable.default_pic_14,
-			R.drawable.default_pic_15,R.drawable.default_pic_16,
-			R.drawable.default_pic_17,R.drawable.default_pic_18,
-			R.drawable.default_pic_19,R.drawable.default_pic_20,
-			R.drawable.default_pic_21,R.drawable.default_pic_22,
+			R.drawable.default_pic_3,R.drawable.default_pic_4
 	};
 
 	private int index=0;
@@ -73,7 +63,7 @@ public class SampleActivity extends Activity {
 			public void onClick(View v) {
 				InputStream rawImageStream = getResources().openRawResource(R.raw.image);
 				byte[] data = streamToBytes(rawImageStream);
-				final Bitmap webpBitmap = bitmapf.decodeByteArray(
+				final Bitmap webpBitmap = BitmapFactory.decodeByteArray(
 						data, 0,data.length,null);
 				_imageView.setImageBitmap(webpBitmap);
 
@@ -92,13 +82,14 @@ public class SampleActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Bitmap webpBitmap= null;
-				try {
-					webpBitmap = WebPFactory.decodeFileDescriptor(new FileInputStream(getFilesDir()+"sample.webp").getFD());
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					webpBitmap = BitmapFactory.decodeFileDescriptor(new FileInputStream(getFilesDir()+"sample.webp").getFD());
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+				webpBitmap = BitmapFactory.decodeFile(new File(getFilesDir().getAbsolutePath(),"sample.webp").getAbsolutePath());
 				_imageView.setImageBitmap(webpBitmap);
 			}
 		});
@@ -110,11 +101,11 @@ public class SampleActivity extends Activity {
 	private void copyAssetsToData(){
 		try {
 			InputStream is=getResources().getAssets().open("sample.webp");
-			IOUtil.copy(is,getFilesDir()+"sample.webp");
+			IOUtil.copy(is,getFilesDir()+"/sample.webp");
 			is.close();
 
 			is=getResources().getAssets().open("sample2.jpg");
-			IOUtil.copy(is,getFilesDir()+"sample2.jpg");
+			IOUtil.copy(is,getFilesDir()+"/sample2.jpg");
 			is.close();
 		} catch (IOException e) {
 			e.printStackTrace();
