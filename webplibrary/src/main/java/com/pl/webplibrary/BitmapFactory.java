@@ -65,9 +65,10 @@ public final class BitmapFactory {
 			return android.graphics.BitmapFactory.decodeFile(pathName, opts);
 		}else {
 			if (!pathName.toLowerCase().endsWith("webp")) {
-				android.graphics.BitmapFactory.decodeFile(pathName, opts);
+				return android.graphics.BitmapFactory.decodeFile(pathName, opts);
+			}else {
+				return nativeDecodeFile(pathName, opts);
 			}
-			return nativeDecodeFile(pathName, opts);
 		}
 	}
 
@@ -130,11 +131,12 @@ public final class BitmapFactory {
 			return android.graphics.BitmapFactory.decodeResource(res, id, opts);
 		}else {
 			String name = res.getString(id);
+			Bitmap bm = null;
+
 			if (!name.toLowerCase().endsWith("webp")) {
-				return android.graphics.BitmapFactory.decodeResource(res, id, opts);
+				bm =  android.graphics.BitmapFactory.decodeResource(res, id, opts);
 			}
 
-			Bitmap bm = null;
 			InputStream is = null;
 
 			try {
@@ -212,7 +214,7 @@ public final class BitmapFactory {
 				if (string.toLowerCase().contains("webp")) {
 					bm = nativeDecodeByteArray(data, opts);
 				} else {
-					return android.graphics.BitmapFactory.decodeByteArray(data, 0, data.length, opts);
+					bm = android.graphics.BitmapFactory.decodeByteArray(data, 0, data.length, opts);
 				}
 				if (bm == null && opts != null) {
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -362,7 +364,7 @@ public final class BitmapFactory {
 			if (string.toLowerCase().contains("webp")){
                 bm = nativeDecodeByteArray(data, opts);
             }else {
-                return android.graphics.BitmapFactory.decodeByteArray(data, 0, data.length, opts);
+				bm = android.graphics.BitmapFactory.decodeByteArray(data, 0, data.length, opts);
             }
 		}else {
 			bm = nativeDecodeByteArray(data, opts);

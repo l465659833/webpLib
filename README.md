@@ -1,4 +1,4 @@
-support-library of WebP library for Android .
+support-library of WebP decode library for Android .
 
 ###HOW TO USE
 
