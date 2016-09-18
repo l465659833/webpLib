@@ -6,7 +6,7 @@ support-library of WebP decode library for Android .
 
 ```
 dependencies {
-    compile 'com.pl:webplibrary:0.1'
+    compile 'com.pl:webplibrary:0.2'
 }
 ```
 
